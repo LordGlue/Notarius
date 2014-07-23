@@ -1,25 +1,7 @@
 <?php
 
-class SiteController extends Controller
+class NotaryController extends Controller
 {
-    /**
-     * Declares class-based actions.
-     */
-    public function actions()
-    {
-        return array(
-            // captcha action renders the CAPTCHA image displayed on the contact page
-            'captcha' => array(
-                'class' => 'CCaptchaAction',
-                'backColor' => 0xFFFFFF,
-            ),
-            // page action renders "static" pages stored under 'protected/views/site/pages'
-            // They can be accessed via: index.php?r=site/page&view=FileName
-            'page' => array(
-                'class' => 'CViewAction',
-            ),
-        );
-    }
 
     /**
      * This is the default 'index' action that is invoked
@@ -27,7 +9,38 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $this->render('index');
+        $model = new Notary('search');
+        $grid_id = "notary__index_grid";
+        $model->unsetAttributes(); // чистим дефолтные значения
+        if (isset($_GET['Notary'])) {
+            $model->attributes = $_GET['Notary'];
+        }
+        $columns_filter = $model->attributeDefault();
+
+        if ($this->isAjax()) {
+            header('Content-type: application/json');
+            $this->renderPartial(
+                '_index_grid',
+                array(
+                    'model' => $model,
+                    'grid_id' => $grid_id,
+                    'grid_data_provider' => $model->search(),
+                    'filter' => $columns_filter,
+                    'columns' => $model->columnsGrid($columns_filter)
+                )
+            );
+            Yii::app()->end();
+        }
+        $this->render(
+            'index',
+            array(
+                'model' => $model,
+                'grid_id' => $grid_id,
+                'grid_data_provider' => $model->search(),
+                'filter' => $columns_filter,
+                'columns' => $model->columnsGrid($columns_filter)
+            )
+        );
     }
 
     /**

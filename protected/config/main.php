@@ -23,6 +23,9 @@ return array(
             'password' => 'qwert',
             // If removed, Gii defaults to localhost only. Edit carefully to taste.
             'ipFilters' => array('127.0.0.1', '::1'),
+            'newFileMode' => 0644,
+            'newDirMode' => 0755,
+            'generatorPaths' => array('ext.newgii'),
         ),
     ),
     // application components
@@ -33,13 +36,14 @@ return array(
 
         ],
         'user' => array(
-            // enable cookie-based authentication
             'allowAutoLogin' => true,
+            'class' => 'WebUser'
         ),
         // uncomment the following to enable URLs in path-format
 
         'urlManager' => array(
             'urlFormat' => 'path',
+            'showScriptName' => false,
             'rules' => array(
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
