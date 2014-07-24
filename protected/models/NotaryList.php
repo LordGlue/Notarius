@@ -19,6 +19,14 @@
  * @property Notary $notary
  * @property Notary $vrio
  * @property NotaryListStatus $status
+ *
+ *
+ * @method NotaryList   find()        find($condition = '', $params = array())
+ * @method NotaryList   findByPk()    findByPk($pk, $condition = '', $params = array())
+ * @method NotaryList   findByAttributes() findByAttributes($attributes, $condition = '', $params = array())
+ * @method NotaryList[] findAllByPk() findAllByPk($pk, $condition = '', $params = array())
+ * @method NotaryList[] findAllByAttributes() findAllByAttributes($attributes, $condition = '', $params = array())
+ * @method NotaryList[] findAll()     findAll($condition = '', $params = array())
  */
 class NotaryList extends ActiveRecord
 {
@@ -43,7 +51,7 @@ class NotaryList extends ActiveRecord
      * Важно!!! Для каждого из перечисленных атрибутов должны быть
      * данные в методе getMultiSelectsData($attribute)
      */
-    public $grid_multi_selects = array();
+    public $grid_multi_selects = array('status_id','notary_id','vrio_id');
 
     /**
      * @return string возвращает сроку привязанной к модели таблицы
@@ -116,7 +124,6 @@ class NotaryList extends ActiveRecord
     public function attributeDefault()
     {
         return array(
-            'functions',
             'id',
             'notary_id',
             'vrio_id',
@@ -125,6 +132,7 @@ class NotaryList extends ActiveRecord
             'filename',
             'status_id',
             'created',
+            'functions',
 
         );
     }
@@ -146,8 +154,8 @@ class NotaryList extends ActiveRecord
         // Тут пример кода
         // TODO Удалите эти строки, если вам не нужны мультиселекты в таблице
         switch ($attribute) {
-            case 'gender':
-                $data = Utilities::ManWoman();
+            case 'status_id':
+                $data = CHtml::listData(NotaryListStatus::model()->findAll(),'id','name');
                 break;
             default:
                 $data = false;

@@ -10,13 +10,12 @@
  * @var array $columns колонки таблицы
  */
 $this->breadcrumbs = array(
-    'Нотариусы',
+    'Список',
 );
-$this->pageTitle = "Нотариусы - " . Yii::app()->name;
-
+$this->pageTitle = "Список - " . Yii::app()->name;
 ?>
 <div class="row">
-    <h1 class="col-md-2">Нотариусы</h1>
+    <h1 class="col-md-2">Список</h1>
 
     <div class="col-md-10 text-right">
 
@@ -27,7 +26,7 @@ $this->pageTitle = "Нотариусы - " . Yii::app()->name;
             "booster.widgets.TbButton",
             array(
                 'id' => 'notary__show_create_modal_button',
-                'label' => 'Добавить нотариуса',
+                'label' => 'Добавить запись',
                 'context' => 'success',
 				'icon'=>'plus'
             )

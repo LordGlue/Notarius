@@ -27,7 +27,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $this->render('index');
+		$this->redirect('/notarylist/index');
+        //$this->render('index');
     }
 
     /**

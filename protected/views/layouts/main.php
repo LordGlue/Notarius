@@ -47,7 +47,7 @@ $this->widget(
 
 ?>
 
-<div class="container">
+<div class="container-fluid">
 
     <?php if (isset($this->breadcrumbs)):
         $this->widget('booster.widgets.TbBreadcrumbs', ['links' => $this->breadcrumbs,]);

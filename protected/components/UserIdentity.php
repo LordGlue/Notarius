@@ -17,32 +17,22 @@ class UserIdentity extends CUserIdentity
      */
     public $role_name;
 
-    /**
-     * @return bool
-     */
-    public function authenticate()
-    {
-        /**
-         * @var $user Users
-         */
-        $user = Users::model()->find('LOWER(username)=?', array(strtolower($this->username)));
-
-        if ($user === null) {
-            $this->errorCode = self::ERROR_USERNAME_INVALID;
-        } elseif ($user->role == 'blocked') {
-            $this->errorCode = self::ERROR_USERNAME_INVALID;
-        } else if ($this->authLdap()) {
-            $this->_id = $user->id;
-            $password = Yii::app()->controller->encrypt($this->password);
-            $this->setState('password', $password);
-            $this->errorCode = self::ERROR_NONE;
-        } else {
-            $this->errorCode = self::ERROR_PASSWORD_INVALID;
-        }
-
-        return $this->errorCode == self::ERROR_NONE;
-    }
-
+	public function authenticate()
+	{
+		$username=strtolower($this->username);
+		$user=User::model()->find('LOWER(name)=?',array($username));
+		if($user===null)
+			$this->errorCode=self::ERROR_USERNAME_INVALID;
+		else if(!$user->validatePassword($this->password))
+			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+		else
+		{
+			$this->_id=$user->id;
+			$this->username=$user->username;
+			$this->errorCode=self::ERROR_NONE;
+		}
+		return $this->errorCode==self::ERROR_NONE;
+	}
 
     /**
      * @return mixed

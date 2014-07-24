@@ -12,7 +12,12 @@
  * @property integer $role Роль
  * @property string $created Дата создания
  *
- * relationsCommentPlaceholder
+ * @method User   find()        find($condition = '', $params = array())
+ * @method User   findByPk()    findByPk($pk, $condition = '', $params = array())
+ * @method User   findByAttributes() findByAttributes($attributes, $condition = '', $params = array())
+ * @method User[] findAllByPk() findAllByPk($pk, $condition = '', $params = array())
+ * @method User[] findAllByAttributes() findAllByAttributes($attributes, $condition = '', $params = array())
+ * @method User[] findAll()     findAll($condition = '', $params = array())
  */
 class User extends ActiveRecord
 {
@@ -351,4 +356,13 @@ class User extends ActiveRecord
         );
     }
 
+	public function validatePassword($password)
+	{
+		return CPasswordHelper::verifyPassword($password,$this->password);
+	}
+
+	public function hashPassword($password)
+	{
+		return CPasswordHelper::hashPassword($password);
+	}
 }

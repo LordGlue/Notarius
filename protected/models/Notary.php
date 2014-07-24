@@ -14,7 +14,14 @@
  *
  * Ниже описаны доступные для модели зависимости:
  * @property NotaryList[] $notaryLists
- * @property NotaryList[] $notaryLists1
+ * @property NotaryList[] $vrioLists
+ *
+ * @method Notary   find()        find($condition = '', $params = array())
+ * @method Notary   findByPk()    findByPk($pk, $condition = '', $params = array())
+ * @method Notary   findByAttributes() findByAttributes($attributes, $condition = '', $params = array())
+ * @method Notary[] findAllByPk() findAllByPk($pk, $condition = '', $params = array())
+ * @method Notary[] findAllByAttributes() findAllByAttributes($attributes, $condition = '', $params = array())
+ * @method Notary[] findAll()     findAll($condition = '', $params = array())
  */
 class Notary extends ActiveRecord
 {
@@ -34,7 +41,7 @@ class Notary extends ActiveRecord
      * Важно!!! Для каждого из перечисленных атрибутов должны быть
      * данные в методе getMultiSelectsData($attribute)
      */
-    public $grid_multi_selects = array();
+    public $grid_multi_selects = array('status');
 
     /**
      * @return string возвращает сроку привязанной к модели таблицы
@@ -74,7 +81,7 @@ class Notary extends ActiveRecord
         // Классы для зависимостей были сгенерированы автоматически! Проверьте их наличие.
         return array(
             'notaryLists' => array(self::HAS_MANY, 'NotaryList', 'notary_id'),
-            'notaryLists1' => array(self::HAS_MANY, 'NotaryList', 'vrio_id'),
+            'vrioLists' => array(self::HAS_MANY, 'NotaryList', 'vrio_id'),
 
         );
     }
@@ -127,8 +134,8 @@ class Notary extends ActiveRecord
         // Тут пример кода
         // TODO Удалите эти строки, если вам не нужны мультиселекты в таблице
         switch ($attribute) {
-            case 'gender':
-                $data = Utilities::ManWoman();
+            case 'status':
+                $data = [1=>'Действует',2=>'Отдыхает'];
                 break;
             default:
                 $data = false;
